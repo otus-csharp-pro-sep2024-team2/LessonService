@@ -1,0 +1,1 @@
+dotnet ef migrations add InitialCreate --startup-project LessonService.WebApi  --project LessonService.Infrastructure.EF 

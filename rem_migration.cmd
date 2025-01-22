@@ -1,0 +1,1 @@
+dotnet ef migrations remove --startup-project LessonService.WebApi  --project LessonService.Infrastructure.EF 

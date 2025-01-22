@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LessonService.Domain.Entities\LessonService.Domain.Entities.csproj" />
+      <ProjectReference Include="..\LessonService.Domain.ValueObjects\LessonService.Domain.ValueObjects.csproj" />
+    </ItemGroup>
+
+</Project>

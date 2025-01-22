@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LessonService.Application.Models\LessonService.Application.Models.csproj" />
+      <ProjectReference Include="..\LessonService.Domain.Entities\LessonService.Domain.Entities.csproj" />
+      <ProjectReference Include="..\LessonService.Domain.ValueObjects\LessonService.Domain.ValueObjects.csproj" />
+      <ProjectReference Include="..\LessonService.Interfaces\LessonService.Interfaces.csproj" />
+      <ProjectReference Include="..\LessonService.Infrastructure.EF\LessonService.Infrastructure.EF.csproj" />
+    </ItemGroup>
+
+</Project>
