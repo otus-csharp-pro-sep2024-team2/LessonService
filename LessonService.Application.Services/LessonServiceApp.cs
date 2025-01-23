@@ -36,25 +36,6 @@ public class LessonServiceApp(AppDbContext context, ILogger<LessonServiceApp> lo
         }
     }
     
-    public async Task<LessonResponse?> RescheduleAsync(Guid lessonId, RescheduleRequest updateRequest)
-    {
-        try
-        {
-            var lesson = await FindLesson(lessonId, new CancellationToken());
-            if (lesson == null)
-                return null;        
-            lesson.Reschedule(updateRequest.date, updateRequest.duration);
-            await context.SaveChangesAsync();
-            logger.LogInformation("Lesson rescheduled successfully.");
-            return mapper.Map<LessonResponse>(lesson);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError($"Error rescheduling the lesson: {ex.Message}");
-            throw;
-        }
-    }
-
     public async Task<LessonResponse?> GetLessonByIdAsync(Guid lessonId)
     {
         try
@@ -102,14 +83,6 @@ public class LessonServiceApp(AppDbContext context, ILogger<LessonServiceApp> lo
         }
     }
 
-    public async Task<LessonResponse?> UpdateLessonAsync(Guid lessonId, CreateLessonRequest lessonInfo)
-    {
-        var lesson = await FindLesson(lessonId, new CancellationToken());
-        if (lesson == null)
-            return null;
-        return mapper.Map<LessonResponse>(lesson);    
-    }
-
     public async Task<bool> DeleteLessonAsync(Guid lessonId)
     {
         try
@@ -146,25 +119,6 @@ public class LessonServiceApp(AppDbContext context, ILogger<LessonServiceApp> lo
         catch (Exception ex)
         {
             logger.LogError($"Error getting lesson: {ex.Message}");
-            throw;
-        }
-    }
-
-    public async Task<bool> RemoveStudentAsync(Guid lessonId, Guid studentId)
-    {
-        try
-        {
-            var group = await FindGroup(lessonId, studentId);
-            if (group == null)
-                return false;
-            context.LessonGroups.Remove(group);
-            await context.SaveChangesAsync();
-            logger.LogInformation("Student removed successfully.");
-            return true;    
-        }
-        catch (Exception ex)
-        {
-            logger.LogError($"Error adding student: {ex.Message}");
             throw;
         }
     }

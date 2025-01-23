@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\LessonService.Application.Models\LessonService.Application.Models.csproj" />
+      <ProjectReference Include="..\LessonService.Domain.Models\LessonService.Domain.Models.csproj" />
     </ItemGroup>
 
 </Project>

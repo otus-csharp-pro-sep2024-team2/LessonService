@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using LessonService.Application.Models.Lesson;
 using LessonService.Application.Services;
 using LessonService.Application.Services.Mapping;
 using LessonService.Domain.Entities;

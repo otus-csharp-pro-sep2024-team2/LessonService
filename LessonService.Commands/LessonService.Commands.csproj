@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\LessonService.Application.Models\LessonService.Application.Models.csproj" />
+      <ProjectReference Include="..\LessonService.Domain.Models\LessonService.Domain.Models.csproj" />
       <ProjectReference Include="..\LessonService.Domain.Entities\LessonService.Domain.Entities.csproj" />
       <ProjectReference Include="..\LessonService.Domain.ValueObjects\LessonService.Domain.ValueObjects.csproj" />
       <ProjectReference Include="..\LessonService.Infrastructure.EF\LessonService.Infrastructure.EF.csproj" />

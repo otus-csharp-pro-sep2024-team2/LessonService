@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LessonService.Application.Models\LessonService.Application.Models.csproj" />
+    <ProjectReference Include="..\LessonService.Domain.Models\LessonService.Domain.Models.csproj" />
     <ProjectReference Include="..\LessonService.Application.Services\LessonService.Application.Services.csproj" />
     <ProjectReference Include="..\LessonService.Commands\LessonService.Commands.csproj" />
     <ProjectReference Include="..\LessonService.Interfaces\LessonService.Interfaces.csproj" />
