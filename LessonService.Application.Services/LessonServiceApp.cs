@@ -42,14 +42,17 @@ public class LessonServiceApp(AppDbContext context, ILogger<LessonServiceApp> lo
 
     public async Task<ApiResponse<LessonModel>> SetLessonStatus(Guid lessonId, LessonStatus lessonStatus, CancellationToken cancellationToken)
     {
-        var response = new ApiResponse<LessonModel>();
         try
         {
             var lesson = await FindLesson(lessonId, cancellationToken);
             lesson.SetStatus(lessonStatus);
             await context.SaveChangesAsync(cancellationToken);
-            response.Message = "Lesson's status has been changed.";
-            response.Data = mapper.Map<LessonModel>(lesson);
+            
+            var response = new ApiResponse<LessonModel>
+            {
+                Message = "Lesson's status was changed.",
+                Data = mapper.Map<LessonModel>(lesson)
+            };
             logger.LogInformation(response.Message);
             return response;    
         }
