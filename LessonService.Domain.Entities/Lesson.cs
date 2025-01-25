@@ -34,7 +34,7 @@ namespace LessonService.Domain.Entities
         public int MaxStudents { get; private set; }
 
         public LessonStatus LessonStatus { get; private set; }
-        public ICollection<LessonGroup> LessonGroups { get; set; } 
+        public ICollection<LessonGroup> LessonGroups { get; init; } = new List<LessonGroup>();  
 
         public string GetName() => Name;
         public string GetDescription() => Description;
@@ -57,43 +57,47 @@ namespace LessonService.Domain.Entities
             {
                 LessonStatus.Completed => new LessonAlreadyCompletedException(this),
                 LessonStatus.InProgress => new LessonInProgressException(this),
-                LessonStatus.Canceled => new LessonCancelledException(this)
+                LessonStatus.Cancelled => new LessonCancelledException(this)
             };
         }
         public void EnrollStudent(IStudent student)
         {
-            if (LessonGroups.Count >= MaxStudents)
-                throw new InvalidOperationException("Cannot enroll the student. Lesson is full.");
-
+            if (LessonGroups.Count >= MaxStudents)                     
+                throw new LessonMaxStudentException(this);
             ValidateLesson();
             LessonGroups.Add(new LessonGroup() { Lesson = this, Student = (Student)student });
         }
 
-        public void UnEnrollStudent(IStudent student)
+        public void UnEnrollStudent(IStudent istudent)
         {
             ValidateLesson();
-            var group = LessonGroups.FirstOrDefault(p => p.LessonId == this.Id && p.StudentId == ((Student)student).Id); 
+            var student = (Student)istudent;
+            var group = LessonGroups.FirstOrDefault(p => p.LessonId == this.Id && p.StudentId == (student).Id); 
             if (group == null)
-                throw new InvalidOperationException("Student is not enrolled to the lesson.");
+                throw new StudentNotEnrolledException(student);
             LessonGroups.Remove(group);
         }
 
         public void Reschedule(DateTime dateFromValue, int durationValue)
         {
             if (DateFrom == dateFromValue && Duration == durationValue)
-                throw new InvalidOperationException(
-                    "Cannot Reschedule Lesson. The current start date/time is equals the new one.");
+                throw new RescheduleLessonDateTimeException(this);
             if (durationValue <= 1)
-                throw new InvalidOperationException(
-                    "Cannot Reschedule Lesson. The duration value must be grater than 1 min.");
+                throw new RescheduleLessonDurationException(this);
             DateFrom = dateFromValue;
             Duration = durationValue;
         }
 
         public void CancelLesson()
         {
-            ValidateLesson();
-            LessonStatus = LessonStatus.Canceled;
+            if (LessonStatus == LessonStatus.Cancelled)
+                throw new LessonCancelledException(this);
+            if (LessonStatus == LessonStatus.Completed)
+                throw new LessonCompletedException(this);
+            if (LessonStatus == LessonStatus.InProgress)
+                throw new LessonInPorgressException(this);
+            
+            LessonStatus = LessonStatus.Cancelled;
         }
 
         public void CompleteLesson()
@@ -102,11 +106,9 @@ namespace LessonService.Domain.Entities
             {
                 throw LessonStatus switch
                 {
-                    LessonStatus.Scheduled => new InvalidOperationException(
-                        "Cannot Complete Lesson. Lesson is not started yet."),
-                    LessonStatus.Completed => new InvalidOperationException(
-                        "Cannot Complete Lesson. Lesson is completed already."),
-                    LessonStatus.Canceled => new InvalidOperationException("Cannot Cancel Lesson. Lesson is canceled."),
+                    LessonStatus.Scheduled => new CompletedNotStartedException(this),
+                    LessonStatus.Completed => new CompletedAlreadyComletedException(this),
+                    LessonStatus.Cancelled => new CompletedIsCancelledException(this),
                 };
             }
             LessonStatus = LessonStatus.Completed;
@@ -114,6 +116,10 @@ namespace LessonService.Domain.Entities
         public void StartLesson()
         {
             ValidateLesson();
+            if (Trainer == null)
+                throw new TrainerIsNotAssignedException(this);
+            if (LessonGroups.Count == 0)
+                throw new LessonHasNoErolledStudent(this);
             LessonStatus = LessonStatus.InProgress;
         }
 
@@ -125,7 +131,7 @@ namespace LessonService.Domain.Entities
         public void RemoveTrainer()
         {
             if (Trainer == null)
-                throw new InvalidOperationException("Cannot Remove the trainer. The trainer is not assigned.");
+                throw new TrainerIsNotAssignedException(this);
             ValidateLesson();
             Trainer = null;
         }
@@ -139,6 +145,26 @@ namespace LessonService.Domain.Entities
         {
             Name = name;
             Description = description;
+        }
+
+        public void SetStatus(LessonStatus lessonStatus)
+        {
+            switch (lessonStatus)
+            {
+                case LessonStatus.Scheduled:
+                    throw new LessonCannotBeScheduledException(this);
+                case LessonStatus.Cancelled:
+                    CancelLesson();
+                    break;
+                case LessonStatus.Completed:
+                    CompleteLesson();
+                    break;
+                case LessonStatus.InProgress:
+                    StartLesson();
+                    break;
+                default:
+                    throw new InvalidLessonStatusValueException((int)lessonStatus);
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace LessonService.Application.Models.System;
+﻿namespace LessonService.Domain.Models.System;
 
 /// <summary>
 /// Represents a response with a data payload and a message.

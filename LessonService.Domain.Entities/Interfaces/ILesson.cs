@@ -1,5 +1,4 @@
-﻿using LessonService.Domain.Entities.Base;
-using LessonService.Domain.Entities.Enums;
+﻿using LessonService.Domain.Entities.Enums;
 
 namespace LessonService.Domain.Entities.Interfaces
 {

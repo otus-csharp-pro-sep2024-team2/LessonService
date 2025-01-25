@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using LessonService.Application.Models.System;
+using LessonService.Domain.Models.System;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace LessonService.WebApi.Exception;

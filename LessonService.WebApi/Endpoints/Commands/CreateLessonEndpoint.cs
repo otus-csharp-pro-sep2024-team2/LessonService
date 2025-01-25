@@ -1,7 +1,7 @@
-﻿using LessonService.Commands;
+﻿using LessonService.Commands.Commands.Request;
 using MediatR;
- 
-namespace LessonService.WebApi.Endpoints;
+
+namespace LessonService.WebApi.Endpoints.Commands;
 
 public static class CreateLessonEndpoint
 {

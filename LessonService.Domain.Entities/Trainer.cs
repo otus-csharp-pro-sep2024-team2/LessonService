@@ -9,5 +9,5 @@ public class Trainer(Guid id, PersonName name) : Person(id, name), ITrainer
     public Trainer() : this(Guid.Empty, new PersonName("Empty"))
     {
     }
-    public ICollection<Lesson>? Lessons { get; set; }    
+    public IEnumerable <Lesson>? Lessons { get; set; }    
 }

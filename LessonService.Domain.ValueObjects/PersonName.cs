@@ -9,4 +9,8 @@ public class PersonName
             throw new ArgumentNullException(nameof(name));
         Name = name;
     }
+    public override string ToString()
+    {
+        return $"{Name}";
+    }    
 }

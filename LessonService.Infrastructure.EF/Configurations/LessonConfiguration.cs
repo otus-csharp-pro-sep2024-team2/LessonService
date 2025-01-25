@@ -1,7 +1,5 @@
 ﻿using LessonService.Domain.Entities;
-using LessonService.Domain.Entities.Base;
 using LessonService.Domain.Entities.Enums;
-using LessonService.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

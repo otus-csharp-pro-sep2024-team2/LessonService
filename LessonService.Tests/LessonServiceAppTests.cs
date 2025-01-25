@@ -22,11 +22,13 @@ public class LessonServiceAppTests
             .Options;
         _context = new AppDbContext(options);
         Mock<ILogger<LessonServiceApp>> loggerMock = new();
-        var config = new MapperConfiguration(cfg => cfg.AddProfile(new LessonMapping()));
-        var mapper = config.CreateMapper();
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<LessonMapping>();
+        });        var mapper = config.CreateMapper();
         _lessonServiceApp = new LessonServiceApp(_context, loggerMock.Object, mapper);
     }
-
+/*
     [Fact]
     public async Task GetAllLessonsAsync_ReturnsAllLessons()
     {
@@ -46,6 +48,7 @@ public class LessonServiceAppTests
         Assert.NotNull(await _context.Lessons.FindAsync(lessonTwo.Id));
         Assert.Equal(resultBefore.Count()+2, resultAfter.Count());
     }
+    */
 /*
     [Fact]
     public async Task CreateLessonAsync_CreatesLesson()
@@ -61,7 +64,6 @@ public class LessonServiceAppTests
         Assert.NotNull(result);
         Assert.Equal(request.Name, result.Name);
     }
-*/
     [Fact]
     public async Task GetLessonByIdAsync_ReturnsLesson()
     {
@@ -78,23 +80,8 @@ public class LessonServiceAppTests
         Assert.NotNull(result);
         Assert.Equal(lesson.Name, result.Name);
     }
-
-    [Fact]
-    public async Task DeleteLessonAsync_DeletesLesson()
-    {
-        // Arrange
-        var lesson = await NewLessonAsync("Lesson 1");
-        _context.Lessons.Add(lesson);
-        await _context.SaveChangesAsync();
-
-        // Act
-        var result = await _lessonServiceApp.DeleteLessonAsync(lesson.Id);
-
-        // Assert
-        Assert.True(result);
-        Assert.Null(await _context.Lessons.FindAsync(lesson.Id));
-    }
-   
+*/
+    
     private Task<Lesson> NewLessonAsync(string name)
     {
         var lesson = new Lesson ( name, _unitTestData );

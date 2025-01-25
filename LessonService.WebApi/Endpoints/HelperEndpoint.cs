@@ -1,8 +1,4 @@
-﻿using LessonService.Application.Models.System;
-using LessonService.Commands;
-using MediatR;
-
-namespace LessonService.WebApi.Endpoints;
+﻿namespace LessonService.WebApi.Endpoints;
 
 public static class HelperEndpoint
 {

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace LessonService.Domain.Entities
+﻿namespace LessonService.Domain.Entities
 {
     public class LessonGroup
     {

@@ -1,5 +1,4 @@
 ﻿using LessonService.Domain.Entities;
-using LessonService.Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
