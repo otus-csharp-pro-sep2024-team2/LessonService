@@ -33,7 +33,7 @@ namespace LessonService.Domain.Entities
         public LessonType LessonType { get; private set; }
         public int MaxStudents { get; private set; }
 
-        public LessonStatus LessonStatus { get; private set; }
+        public LessonStatus LessonStatus { get; private set; } = LessonStatus.Scheduled;
         public ICollection<LessonGroup> LessonGroups { get; init; } = new List<LessonGroup>();  
 
         public string GetName() => Name;
@@ -51,8 +51,12 @@ namespace LessonService.Domain.Entities
         public void SetMaxStudents(int value) => MaxStudents = value;
         public void ValidateLesson()
         {
+            if (LessonStatus == 0)
+                LessonStatus = LessonStatus.Scheduled;
+            
             if (LessonStatus == LessonStatus.Scheduled)
                 return;
+            
             throw LessonStatus switch
             {
                 LessonStatus.Completed => new LessonAlreadyCompletedException(this),
@@ -76,6 +80,11 @@ namespace LessonService.Domain.Entities
             if (group == null)
                 throw new StudentNotEnrolledException(student);
             LessonGroups.Remove(group);
+        }
+
+        public IEnumerable<Student> GetStudents()
+        {
+            return LessonGroups.Select(p => p.Student).ToList();
         }
 
         public void Reschedule(DateTime dateFromValue, int durationValue)

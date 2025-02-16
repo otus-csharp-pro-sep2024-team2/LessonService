@@ -1,4 +1,4 @@
-﻿using LessonService.Commands.Queries.Request;
+﻿using LessonService.Commands.Requests.Queries;
 using MediatR;
 
 namespace LessonService.WebApi.Endpoints.Queries;

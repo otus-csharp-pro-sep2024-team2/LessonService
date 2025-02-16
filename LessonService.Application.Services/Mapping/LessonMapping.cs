@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LessonService.Commands.Requests.Commands;
 using LessonService.Domain.Entities;
 using LessonService.Domain.Entities.Enums;
 using LessonService.Domain.Models.Lesson;
@@ -9,6 +10,8 @@ public class LessonMapping: Profile
 {
     public LessonMapping()
     {
+        CreateMap<CreateLessonCommand, Lesson>()
+            .ForMember(dest => dest.DateFrom, opt => opt.MapFrom(src => DateTime.SpecifyKind(src.DateFrom, DateTimeKind.Utc)));
         CreateMap<Lesson, LessonModel>()
             .ConstructUsing(src => new LessonModel(
                 src.Id,

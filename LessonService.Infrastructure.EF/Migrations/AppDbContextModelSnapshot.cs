@@ -17,29 +17,10 @@ namespace LessonService.Infrastructure.EF.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("lessonsrv")
                 .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("LessonGroupStudent", b =>
-                {
-                    b.Property<Guid>("StudentsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("LessonGroupsLessonId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("LessonGroupsStudentId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("StudentsId", "LessonGroupsLessonId", "LessonGroupsStudentId");
-
-                    b.HasIndex("LessonGroupsLessonId", "LessonGroupsStudentId");
-
-                    b.ToTable("LessonGroupStudents", "lessonsrv");
-                });
 
             modelBuilder.Entity("LessonService.Domain.Entities.Lesson", b =>
                 {
@@ -91,7 +72,7 @@ namespace LessonService.Infrastructure.EF.Migrations
 
                     b.HasIndex("TrainerId");
 
-                    b.ToTable("Lessons", "lessonsrv");
+                    b.ToTable("Lessons", (string)null);
                 });
 
             modelBuilder.Entity("LessonService.Domain.Entities.LessonGroup", b =>
@@ -104,7 +85,9 @@ namespace LessonService.Infrastructure.EF.Migrations
 
                     b.HasKey("LessonId", "StudentId");
 
-                    b.ToTable("LessonGroups", "lessonsrv");
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("LessonGroups");
                 });
 
             modelBuilder.Entity("LessonService.Domain.Entities.Student", b =>
@@ -119,7 +102,7 @@ namespace LessonService.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Students", "lessonsrv");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("LessonService.Domain.Entities.Trainer", b =>
@@ -134,22 +117,7 @@ namespace LessonService.Infrastructure.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Trainers", "lessonsrv");
-                });
-
-            modelBuilder.Entity("LessonGroupStudent", b =>
-                {
-                    b.HasOne("LessonService.Domain.Entities.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LessonService.Domain.Entities.LessonGroup", null)
-                        .WithMany()
-                        .HasForeignKey("LessonGroupsLessonId", "LessonGroupsStudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("Trainers", (string)null);
                 });
 
             modelBuilder.Entity("LessonService.Domain.Entities.Lesson", b =>
@@ -169,10 +137,23 @@ namespace LessonService.Infrastructure.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LessonService.Domain.Entities.Student", "Student")
+                        .WithMany("LessonGroups")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Lesson");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("LessonService.Domain.Entities.Lesson", b =>
+                {
+                    b.Navigation("LessonGroups");
+                });
+
+            modelBuilder.Entity("LessonService.Domain.Entities.Student", b =>
                 {
                     b.Navigation("LessonGroups");
                 });

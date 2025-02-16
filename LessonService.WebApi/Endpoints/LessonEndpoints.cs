@@ -1,4 +1,7 @@
 ﻿using LessonService.WebApi.Endpoints.Commands;
+using LessonService.WebApi.Endpoints.Commands.Lesson;
+using LessonService.WebApi.Endpoints.Commands.Student;
+using LessonService.WebApi.Endpoints.Commands.Trainer;
 using LessonService.WebApi.Endpoints.Queries;
 
 namespace LessonService.WebApi.Endpoints;
@@ -22,7 +25,7 @@ public static class LessonEndpoints
         UnEnrollStudentEndpoint.Map(app);
         GetAllStudentsOfLessonEndpoint.Map(app);
         UpdateLessonEndpoint.Map(app);
-        RescheduleEndpoint.Map(app);
+        RescheduleLessonEndpoint.Map(app);
         LessonStatusToInprogressEndpoint.Map(app);
         LessonStatusToCompletedEndpoint.Map(app);
         LessonStatusToCancelledEndpoint.Map(app);

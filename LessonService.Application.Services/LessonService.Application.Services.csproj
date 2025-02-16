@@ -8,9 +8,12 @@
 
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.1" />
+      <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\LessonService.Commands.Requests\LessonService.Commands.Requests.csproj" />
       <ProjectReference Include="..\LessonService.Domain.Models\LessonService.Domain.Models.csproj" />
       <ProjectReference Include="..\LessonService.Domain.Entities\LessonService.Domain.Entities.csproj" />
       <ProjectReference Include="..\LessonService.Domain.ValueObjects\LessonService.Domain.ValueObjects.csproj" />

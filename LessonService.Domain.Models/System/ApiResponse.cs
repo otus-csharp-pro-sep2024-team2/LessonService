@@ -11,7 +11,7 @@ public class ApiResponse<T>
 
     public ApiResponse()
     {
-        Message = "Unknown error";
+        Message = "";
     }
 
     public ApiResponse(T data, string message)

@@ -2,8 +2,9 @@
 using FluentValidation;
 using LessonService.Application.Services;
 using LessonService.Application.Services.Mapping;
-using LessonService.Commands.Commands.Handlers;
-using LessonService.Commands.Commands.Request;
+using LessonService.Application.Services.MessageProducer;
+using LessonService.Commands.Commands;
+using LessonService.Commands.Requests.Commands;
 using LessonService.Domain.Models.Lesson;
 using LessonService.Domain.Models.System;
 using LessonService.Infrastructure.EF;
@@ -21,15 +22,18 @@ public static class ServiceExtensions
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(builder.Configuration);
         // Adding the database context
-        var conStr = builder.Configuration.GetConnectionString("sqlConnection");
-        ArgumentNullException.ThrowIfNull(conStr);
-        builder.Services.AddNpgsql<AppDbContext>(conStr, options =>
+        var dbConnection = Environment.GetEnvironmentVariable("LessonService_ConnectionStrings__DbConnection");
+        if (string.IsNullOrWhiteSpace(dbConnection))
+            dbConnection = builder.Configuration.GetConnectionString("sqlConnection");
+        ArgumentNullException.ThrowIfNull(dbConnection);
+        builder.Services.AddNpgsql<AppDbContext>(dbConnection, options =>
         {
             options.MigrationsAssembly("LessonService.Infrastructure.EF");
         });
         builder.Services.AddLogging();
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateLessonCommandHandler).Assembly));        
         builder.Services.AddScoped<IRequestHandler<RemoveTrainerCommand, ApiResponse<LessonModel>>, RemoveTrainerCommandHandler>();
+        builder.Services.AddSingleton<IMessageProducer, RabbitMessageProducer>();
         builder.Services.AddAutoMapper(typeof(Program), typeof(LessonMapping));
         
         // Adding validators from the current assembly

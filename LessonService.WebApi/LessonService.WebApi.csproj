@@ -22,7 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LessonService.Domain.Models\LessonService.Domain.Models.csproj" />
     <ProjectReference Include="..\LessonService.Application.Services\LessonService.Application.Services.csproj" />
-    <ProjectReference Include="..\LessonService.Commands\LessonService.Commands.csproj" />
+    <ProjectReference Include="..\LessonService.Commands.Handlers\LessonService.Commands.Handlers.csproj" />
     <ProjectReference Include="..\LessonService.Interfaces\LessonService.Interfaces.csproj" />
   </ItemGroup>
 
